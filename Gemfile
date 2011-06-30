@@ -17,6 +17,7 @@ gem 'jquery-rails'
 gem 'kaminari'
 gem 'devise'
 gem 'paperclip'
+gem 'sprockets', "2.0.0.beta.10"
 
 # Use unicorn as the web server
 # gem 'unicorn'
