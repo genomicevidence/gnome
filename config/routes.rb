@@ -1,4 +1,8 @@
 Gknome::Application.routes.draw do
+  root :to => 'pages#home'
+  match '/about' => "pages#about"
+  match '/contact' => "pages#contact"
+
   devise_for :users
 
   # The priority is based upon order of creation:
