@@ -1,4 +1,12 @@
 Gknome::Application.routes.draw do
+  get "upload/case_control"
+
+  get "upload/case_only"
+
+  get "upload/family"
+
+  get "upload/healthy"
+
   root :to => 'pages#home'
   match '/about' => "pages#about"
   match '/contact' => "pages#contact"
