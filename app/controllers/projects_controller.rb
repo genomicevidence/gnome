@@ -21,6 +21,8 @@ class ProjectsController < ApplicationController
 
   def new
     @project = current_user.projects.new(:scenario => params[:scenario])
+    @project.datasets.new(:category => "case")
+    @project.datasets.new(:category => "control") if %w(case_and_control).include?(params[:scenario])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -30,6 +32,10 @@ class ProjectsController < ApplicationController
 
   def edit
     @project = current_user.projects.where(:id => params[:id]).first
+    
+    #@project.datasets.new(:category => "case")
+    #@project.datasets.new(:category => "control") if %w(case_and_control).include?(params[:scenario])
+
   end
 
   def create

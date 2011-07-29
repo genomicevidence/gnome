@@ -13,8 +13,6 @@
   <% end %>
 
   <div class="field">
-  </div>
-  <div class="field">
     <%= f.label :title %><br />
     <%= f.text_field :title %>
   </div>
@@ -22,6 +20,14 @@
     <%= f.label :scenario %><br />
     <%= f.select :scenario,  options_for_select(Project.scenarios.map {|o| [o.titleize, o]}, @project.scenario) %>
   </div>
+  <%= f.fields_for :datasets do |b| %>
+  <div class="field">
+    <%= b.hidden_field :category %>
+    <%= b.label :file, "#{b.object.category.titleize} Dataset ZIP file" %><br />
+    <%= b.file_field :file %>
+    <%= b.hidden_field :file_cache %>
+  </div>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>

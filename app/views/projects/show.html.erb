@@ -1,9 +1,12 @@
-<h1><%= @project.title %></h1>
-<p>
-  <b>Scenario:</b>
-  <%= @project.scenario %>
-</p>
+<h1><%= @project.title %> (<%= @project.scenario.titleize %>)</h1>
 
+<h2>Datasets</h2>
+
+<ul>
+<% @project.datasets.each do |dataset| %>
+  <li><%= dataset.category%>: <%= dataset.read_attribute(:file) %> (<%= number_to_human_size(dataset.file.size) %>)</li>
+<% end %>
+</ul>
 
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Delete', @project, confirm: 'Are you sure?', method: :delete %>
