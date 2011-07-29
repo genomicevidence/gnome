@@ -16,7 +16,7 @@ gem 'jquery-rails'
 
 gem 'kaminari'
 gem 'devise'
-gem 'paperclip'
+gem 'carrierwave'
 
 # Use unicorn as the web server
 # gem 'unicorn'
