@@ -10,7 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110630190149) do
+ActiveRecord::Schema.define(:version => 20110729073214) do
+
+  create_table "projects", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.string   "scenario"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "projects", ["user_id"], :name => "index_projects_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -29,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20110630190149) do
     t.integer  "failed_attempts",                       :default => 0
     t.string   "unlock_token"
     t.datetime "locked_at"
+    t.integer  "projects_count",                        :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

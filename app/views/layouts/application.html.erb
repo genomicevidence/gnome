@@ -12,6 +12,7 @@
   <%= link_to_unless_current "gKnome", root_path %>
   <nav>
     <%= link_to_unless_current "Home", root_path %>
+    <%= link_to_unless_current "My Projects", projects_path %>
     <%= link_to_unless_current "About", about_path %>
     <%= link_to_unless_current "Contact", contact_path %>
     <% if user_signed_in? %>
@@ -23,6 +24,7 @@
 </header>
 
 <div id="main" role="main">
+<p id="notice"><%= notice %></p>
 <%= yield %>
 </div>
 

@@ -1,4 +1,6 @@
 Gknome::Application.routes.draw do
+  resources :projects
+
   get "upload/case_control"
 
   get "upload/case_only"

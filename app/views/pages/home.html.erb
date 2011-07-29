@@ -1,1 +1,7 @@
 <h1>Welcome to gKnome</h1>
+
+<ul>
+<% for scenario in Project.scenarios %>
+  <li><%= link_to scenario.titleize, new_project_path(:scenario => scenario) %></li>
+<% end %>
+</ul>
