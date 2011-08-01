@@ -17,6 +17,7 @@ gem 'jquery-rails'
 gem 'kaminari'
 gem 'devise'
 gem 'carrierwave'
+gem 'rubyzip', :require => 'zip/zip'
 
 # Use unicorn as the web server
 # gem 'unicorn'

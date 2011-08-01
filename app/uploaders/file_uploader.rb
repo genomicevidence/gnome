@@ -13,7 +13,7 @@ class FileUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "#{Rails.root}/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -27,6 +27,29 @@ class FileUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
+
+  process :analyze
+
+  def analyze
+    # analyze files in the zip file one by one
+    Zip::ZipFile.open(@file.file) do |files|
+      files.each do |f|
+        next unless f.file?
+        # Use MD5 digest file name in tmp dir in case multiple users upload files with the same name
+        file_path = File.join( Rails.root, "tmp", Digest::MD5.hexdigest(f.to_s + Time.now.to_s) + ".gvf" )
+        files.extract( f, file_path )
+        # TODO: delayed_job
+        # TODO: check gvf format
+        v = `wc -l #{file_path}`
+        Rails.logger.info("TEST #{v}")
+        # All done. Delete it.
+        FileUtils.rm(file_path)
+      end
+    end
+    @file
+    # run pipleline script
+    # load data
+  end
 
   # Create different versions of your uploaded files:
   # version :thumb do
