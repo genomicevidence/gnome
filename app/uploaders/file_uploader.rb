@@ -40,8 +40,10 @@ class FileUploader < CarrierWave::Uploader::Base
         files.extract( f, file_path )
         # TODO: delayed_job
         # TODO: check gvf format
-        v = `wc -l #{file_path}`
-        Rails.logger.info("TEST #{v}")
+        #v = `wc -l #{file_path}`
+        #Rails.logger.info("TEST #{v}")
+        pipeline = File.join(Rails.root, "script", "gnome_scripts", "pipeline.pl")
+        system("#{pipeline} #{file_path}")
         # All done. Delete it.
         FileUtils.rm(file_path)
       end

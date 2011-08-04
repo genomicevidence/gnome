@@ -19,6 +19,7 @@ gem 'devise'
 gem 'carrierwave'
 gem 'rubyzip', :require => 'zip/zip'
 gem 'delayed_job'
+gem 'carrierwave_backgrounder'
 
 # Use unicorn as the web server
 # gem 'unicorn'

@@ -6,4 +6,5 @@ class Dataset < ActiveRecord::Base
   validates_inclusion_of :category, :in => %w( case control)
 
   mount_uploader :file, FileUploader
+  process_in_background :file
 end
