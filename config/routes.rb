@@ -1,4 +1,4 @@
-Gknome::Application.routes.draw do
+Gnome::Application.routes.draw do
   resources :projects
 
   get "upload/case_control"

@@ -1,1 +1,1 @@
-= gKnome
+= gNome

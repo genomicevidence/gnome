@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Gknome::Application.load_tasks
+Gnome::Application.load_tasks
