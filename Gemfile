@@ -18,6 +18,7 @@ gem 'kaminari'
 gem 'devise'
 gem 'carrierwave'
 gem 'rubyzip', :require => 'zip/zip'
+gem 'delayed_job'
 
 # Use unicorn as the web server
 # gem 'unicorn'
