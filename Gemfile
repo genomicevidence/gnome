@@ -20,6 +20,7 @@ gem 'carrierwave'
 gem 'rubyzip', :require => 'zip/zip'
 gem 'delayed_job'
 gem 'carrierwave_backgrounder'
+gem 'therubyracer', :require => 'v8'
 
 # Use unicorn as the web server
 # gem 'unicorn'
