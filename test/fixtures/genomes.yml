@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  dataset_id: 1
+  genome_build: MyString
+  ancestry: MyString
+  variants_count: 1
+
+two:
+  dataset_id: 1
+  genome_build: MyString
+  ancestry: MyString
+  variants_count: 1
