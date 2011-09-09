@@ -22,6 +22,7 @@ gem 'delayed_job'
 gem 'carrierwave_backgrounder'
 gem 'therubyracer', :require => 'v8'
 gem 'loadat', '0.0.2'
+gem "letter_opener", :group => :development
 
 # Use unicorn as the web server
 # gem 'unicorn'

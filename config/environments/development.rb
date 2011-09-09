@@ -19,6 +19,9 @@ Gnome::Application.configure do
   # Devise setup
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
+  # open email in the browser instead of sending it
+  config.action_mailer.delivery_method = :letter_opener
+
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
