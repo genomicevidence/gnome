@@ -2,12 +2,71 @@
 
 <h2>Datasets</h2>
 
-<ul>
+<div class="row">
 <% @project.datasets.each do |dataset| %>
-  <li><%= dataset.category%>: <%= dataset.read_attribute(:file) %> (<%= number_to_human_size(dataset.file.size) %>)</li>
+  <div class="span8 colums">
+    <h3><%= pluralize(dataset.genomes.count, dataset.category.titleize) %> <small><%= dataset.read_attribute(:file) %> (<%= number_to_human_size(dataset.file.size) %>)</small></h3>
+    <table class="zebra-striped">
+      <tr>
+        <th>File Name</th>
+        <th>Genome Build</th>
+        <th>Ancestry</th>
+        <th class="number">Variants Count</th>
+      </tr>
+      <% dataset.genomes.each do |genome| %>
+      <tr>
+        <td class="long_file_name"><%= link_to(genome.file_name, genome) %></td>
+        <td><%= genome.genome_build %></td>
+        <td><%= genome.ancestry %></td>
+        <td class="number"><%= number_with_delimiter(genome.variants_count) %></td>
+      </tr>
+      <% end %>
+      </table>
+  </div>
 <% end %>
-</ul>
+</div>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Delete', @project, confirm: 'Are you sure?', method: :delete %>
-<%= link_to 'Back', projects_path %>
+<h2>Summary</h2>
+
+<div class="row">
+<% @project.datasets.includes(:summaries).each do |dataset| %>
+  <div class="span8 colums">
+    <h3><%= pluralize(dataset.genomes.count, dataset.category.titleize) %></h3>
+    
+    <% summaries = dataset.summaries.group_by(&:category) %>
+    <% summaries.keys.each do |category| %>
+      <% subcategories = summaries[category].group_by(&:subcategory) %>
+      <% subcategories.keys.each do |subcategory| %>
+    <h4><%= category.titleize %> <small><%= subcategory %></small></h4>
+    <table class="zebra-striped">
+      <tr>
+        <th></th>
+        <th class="number">Minimum</th>
+        <th class="number">Average</th>
+        <th class="number">Maximum</th>
+        <th class="number">Proportion (%)</th>
+      </tr>
+      <% items = subcategories[subcategory].group_by(&:item) %>
+      <% items.keys.each do |key| %>
+        <% counts = items[key].map(&:variants_count) %>
+        <% sum = counts.inject(0){|acc, i| acc + i} %>
+        <% total_counts = dataset.genomes.map(&:variants_count).inject(0){|acc, i| acc + i}%>
+      <tr>
+        <td><%= key %></td>
+        <td class="number"><%= number_with_delimiter(counts.sort.first) %></td>
+        <td class="number"><%= number_with_delimiter((sum / counts.length.to_f).round) %></td>
+        <td class="number"><%= number_with_delimiter(counts.sort.reverse.first) %></td>
+        <td class="number"><%= number_with_delimiter(number_with_precision(sum / total_counts.to_f * 100, :precision => 2)) %></td>
+      </tr>
+      <% end %>
+    </table>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+</div>
+<div class="form-stacked actions">
+  <%= link_to 'Edit', edit_project_path(@project), :class => "btn primary" %>
+  <%= link_to 'Delete', @project, confirm: 'Are you sure?', method: :delete, class: "btn danger" %>
+  <%= link_to 'Back', projects_path, :class => "btn"%>  
+</div>

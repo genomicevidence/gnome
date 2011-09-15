@@ -6,3 +6,21 @@
  *= require_self
  *= require_tree . 
 */
+body {
+  padding-top: 50px;
+}
+
+.alert-message.error li {
+  color: #fff;
+}
+
+.number {
+  text-align: right;
+}
+
+.long_file_name {
+  max-width: 20em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

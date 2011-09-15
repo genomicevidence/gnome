@@ -13,11 +13,19 @@ class CreateVariants < ActiveRecord::Migration
       t.integer :var_ID
       t.string :Reference_seq, :limit => 192
       t.string :Variant_seq, :limit => 169
-      t.integer :allele, :limit => 1
+      t.string :Genotype
+      #t.integer :allele, :limit => 1
       t.string :ID_dbSNP132_EUR, :limit => 252
       t.float :AF_dbSNP132_EUR
       t.float :AF_1000G_EUR
       t.float :AF_200E_EUR
+      t.string :ID_dbSNP132_ASN
+      t.float :AF_dbSNP132_ASN
+      t.float :AF_1000G_ASN
+      t.string :ID_dbSNP132_AFR
+      t.float :AF_dbSNP132_AFR
+      t.float :AF_1000G_AFR
+      t.string :gene_model, :limit => 9
       t.string :impact, :limit => 18
       t.integer :variant_seq_index, :limit => 1
       t.string :gene_component, :limit => 11
@@ -39,8 +47,11 @@ class CreateVariants < ActiveRecord::Migration
       t.string :PPH2_pred, :limit => 11
       t.float :Condel_score
       t.string :Condel_pred, :limit => 11
-      t.string :SIFT_PPH2_detail, :limit => 50
+      t.string :SIFT_detail, :limit => 50
+      t.string :Conserved_TFBS
+      t.string :miRNA
+      t.string :SafeGene
     end
-    add_index :variants, [:genome_id, :impact, :AF_dbSNP132_EUR, :AF_1000G_EUR, :AF_200E_EUR], :name => "index_variants_on_genome_id_and_impact_and_af"
+    add_index :variants, [:genome_id, :gene_model, :impact, :gene_component], :name => "index_variants_on_genome_id_and_impact_and_af"
   end
 end

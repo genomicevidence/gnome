@@ -1,6 +1,7 @@
 class Dataset < ActiveRecord::Base
   belongs_to :project
   has_many :genomes
+  has_many :summaries, :through => :genomes
 
   validates_associated :project
   validates_presence_of :category, :file

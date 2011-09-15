@@ -1,5 +1,6 @@
 Gnome::Application.routes.draw do
   resources :projects
+  resources :genomes
 
   get "upload/case_control"
 

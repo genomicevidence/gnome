@@ -1,8 +1,8 @@
-<%= form_for(@project) do |f| %>
+<%= form_for(@project, :html => {:class => "form-stacked actions"}) do |f| %>
   <%= f.hidden_field :user_id %>
   <% if @project.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+    <div class="alert-message error">
+      <strong><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</strong>
 
       <ul>
       <% @project.errors.full_messages.each do |msg| %>
@@ -12,22 +12,21 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :scenario %><br />
-    <%= f.select :scenario,  options_for_select(Project.scenarios.map {|o| [o.titleize, o]}, @project.scenario) %>
-  </div>
+    <p><%= f.label :title %>
+    <%= f.text_field :title, :class => "error" %></p>
+    
+    <p><%= f.label :scenario %>
+    <%= f.select :scenario,  options_for_select(Project.scenarios.map {|o| [o.titleize, o]}, @project.scenario) %></p>
+
   <%= f.fields_for :datasets do |b| %>
-  <div class="field">
+  <p>
     <%= b.hidden_field :category %>
-    <%= b.label :file, "#{b.object.category.titleize} Dataset ZIP file" %><br />
+    <%= b.label :file, "#{b.object.category.titleize} Dataset ZIP file" %>
     <%= b.file_field :file %>
-  </div>
+  </p>
   <% end %>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Save", :class => "btn primary" %>
+    <%= link_to "Cancel", @project, :class => "btn default" %>
   </div>
 <% end %>

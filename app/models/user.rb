@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :confirmed_at, :as => :admin
 
   validates :email, :format => { :with => /\.edu$/, :message => "must end with .edu" }
 end

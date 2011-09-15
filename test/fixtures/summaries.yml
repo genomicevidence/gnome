@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  genome_id: 1
+  category: MyString
+  subcategory: MyString
+  item: MyString
+  variants_count: 1
+
+two:
+  genome_id: 1
+  category: MyString
+  subcategory: MyString
+  item: MyString
+  variants_count: 1

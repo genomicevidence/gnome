@@ -1,0 +1,20 @@
+<h2>Sign in</h2>
+
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => "form-stacked actions"}) do |f| %>
+
+    <%= f.label :email %>
+    <p><%= f.email_field :email %></p>
+
+    <%= f.label :password %>
+    <p><%= f.password_field :password %></p>
+
+    <% if devise_mapping.rememberable? -%>
+    <p><label for="user_remember_me">
+      <%= f.check_box :remember_me %> <span>Remember me</span>
+    </label></p>
+    <% end -%>
+    <p><%= f.submit "Sign in", :class => "btn primary" %></p>
+    <%= render :partial => "devise/shared/links" %>
+</div>
+
+<% end %>

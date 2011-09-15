@@ -7,30 +7,45 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div id="container">
-<header>
-  <%= link_to_unless_current "gNome", root_path %>
-  <nav>
-    <%= link_to_unless_current "Home", root_path %>
-    <%= link_to_unless_current "My Projects", projects_path %>
-    <%= link_to_unless_current "About", about_path %>
-    <%= link_to_unless_current "Contact", contact_path %>
-    <% if user_signed_in? %>
-    <%= link_to 'Sign out', destroy_user_session_path, :method => :delete %>
-    <% else %>
-    <%= link_to 'Sign in', new_user_session_path %>
-    <% end %>
-  </nav>
-</header>
+<div class="container">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="container">
+        <h3><%= link_to "gNome", root_path %></h3>
+        <ul class="nav">
+          <li class="<%= controller.controller_name == "pages" and controller.action_name == "home" ? "active" : "" %>"><%= link_to "Home", root_path %></li>
+          <li class="dropdown <%= controller.controller_name == "projects" ? "active" : "" %>">
+            <%= link_to "My Projects", projects_path, :class => "xdropdown-toggle" %>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Summary" %></li>
+              <li><%= link_to "Genomes" %></li>
+              <li><%= link_to "Genes" %></li>
+              <li><%= link_to "Variations" %></li>
+            </ul>
+          </li>
+          <li class="<%= controller.controller_name == "pages" and controller.action_name == "about" ? "active" : "" %>"><%= link_to "About", about_path %></li>
+          <li class="<%= controller.controller_name == "pages" and controller.action_name == "contact" ? "active" : "" %>"><%= link_to "Contact", contact_path %></li>
+          <% if user_signed_in? %>
+          <li><%= link_to 'Sign out', destroy_user_session_path, :method => :delete %></li>
+          <% else %>
+          <li><%= link_to 'Sign in', new_user_session_path %></li>
+          <% end %>
+        </ul><!-- #nav -->
+      </div><!-- #container -->
+    </div><!-- #topbar-inner -->
+  </div><!-- #topbar -->
 
 <div id="main" role="main">
-<p id="notice"><%= notice %></p>
+
+<% if notice.present? %>
+<div class="alert-message success"><%= notice %></div>
+<% end %>
 <%= yield %>
 </div>
 
-<footer>
+<!--footer>
 
-</footer>
+</footer-->
 </div><!-- #container -->
 </body>
 </html>
