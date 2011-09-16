@@ -75,4 +75,42 @@ class ProjectsController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  
+  def genes
+    @project = current_user.projects.where(:id => params[:id]).first
+    
+    params[:variant] ||= {}
+    params[:variant]["gene_model"] ||= "r"
+    params[:variant]["ancestry"] ||= "european"
+    params[:variant]["allele_frequency"] ||= "n"
+    params[:variant]["impact"] ||= "nonsynonymous"
+    
+    @datasets = @project.datasets
+    case_dataset_id = @project.datasets.where(:category => "case").first.id
+    control_dataset_id = @project.datasets.where(:category => "control").first.id
+    @variants = Variant.where(:dataset_id => @datasets) #.page(params[:page])
+    #@variants = @genome.variants.select("var_ID, chromosome, gene_symbol").page(params[:page])
+
+    params[:variant].each do |key, value|
+      if value.present?
+        if key != 'ancestry' and key != 'allele_frequency' and key != 'impact'
+          @variants = @variants.where(key.to_sym => value)
+        elsif key == 'allele_frequency'
+          col = key + "_" + params[:variant][:ancestry]
+          @variants = @variants.where(col.to_sym => value)
+        elsif key == 'impact'
+          if value == "nonsynonymous"
+            @variants = @variants.where("impact != 'synonymous'")
+          elsif value == "synonymous"
+            @variants = @variants.where(:impact => 'synonymous')
+          elsif value == "any"
+            @variants = @variants.where("impact != ''", )
+          end
+        end
+      end
+    end
+    var_by_transcript = @variants.group_by(&:transcript_ID)
+    @transcripts = var_by_transcript.keys.map {|t| [var_by_transcript[t].first, var_by_transcript[t].select {|t| t.dataset_id == case_dataset_id}.map(&:genome_id).uniq.size, var_by_transcript[t].select {|t| t.dataset_id == control_dataset_id}.map(&:genome_id).uniq.size]}
+  end
 end

@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(:version => 20110914180116) do
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "variants", :force => true do |t|
+    t.integer "dataset_id"
     t.integer "genome_id"
     t.string  "allele_frequency_european",    :limit => 1
     t.string  "allele_frequency_asian",       :limit => 1
@@ -151,6 +152,9 @@ ActiveRecord::Schema.define(:version => 20110914180116) do
     t.string  "SafeGene"
   end
 
+  add_index "variants", ["dataset_id", "gene_model", "allele_frequency_african", "impact", "gene_component"], :name => "index_variants_on_dataset_id_gene_model_af_afr"
+  add_index "variants", ["dataset_id", "gene_model", "allele_frequency_asian", "impact", "gene_component"], :name => "index_variants_on_dataset_id_gene_model_af_asn"
+  add_index "variants", ["dataset_id", "gene_model", "allele_frequency_european", "impact", "gene_component"], :name => "index_variants_on_dataset_id_gene_model_af_eur"
   add_index "variants", ["genome_id", "gene_model", "allele_frequency_african", "impact", "gene_component"], :name => "index_variants_on_genome_id_gene_model_af_afr"
   add_index "variants", ["genome_id", "gene_model", "allele_frequency_asian", "impact", "gene_component"], :name => "index_variants_on_genome_id_gene_model_af_asn"
   add_index "variants", ["genome_id", "gene_model", "allele_frequency_european", "impact", "gene_component"], :name => "index_variants_on_genome_id_gene_model_af_eur"

@@ -1,6 +1,7 @@
 class CreateVariants < ActiveRecord::Migration
   def change
     create_table :variants do |t|
+      t.integer :dataset_id
       t.integer :genome_id
       t.string :allele_frequency_european, :limit => 1
       t.string :allele_frequency_asian, :limit => 1
@@ -55,6 +56,9 @@ class CreateVariants < ActiveRecord::Migration
       t.string :miRNA
       t.string :SafeGene
     end
+    add_index :variants, [:dataset_id, :gene_model, :allele_frequency_european, :impact, :gene_component], :name => "index_variants_on_dataset_id_gene_model_af_eur"
+    add_index :variants, [:dataset_id, :gene_model, :allele_frequency_asian, :impact, :gene_component], :name => "index_variants_on_dataset_id_gene_model_af_asn"
+    add_index :variants, [:dataset_id, :gene_model, :allele_frequency_african, :impact, :gene_component], :name => "index_variants_on_dataset_id_gene_model_af_afr"
     add_index :variants, [:genome_id, :gene_model, :allele_frequency_european, :impact, :gene_component], :name => "index_variants_on_genome_id_gene_model_af_eur"
     add_index :variants, [:genome_id, :gene_model, :allele_frequency_asian, :impact, :gene_component], :name => "index_variants_on_genome_id_gene_model_af_asn"
     add_index :variants, [:genome_id, :gene_model, :allele_frequency_african, :impact, :gene_component], :name => "index_variants_on_genome_id_gene_model_af_afr"

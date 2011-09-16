@@ -1,6 +1,6 @@
-<h1><%= link_to @genome.dataset.project.title, @genome.dataset.project %> <small><%= @genome.file_name %> (<%= @genome.dataset.category %>)</small></h1>
+<h1><%= link_to @project.title, @project %> Genes</h1>
 
-<%= form_tag(@genome, :method => :get, :id => "variant_filter") do %>
+<%= form_tag(genes_project_path(@project), :method => :get, :id => "variant_filter") do %>
 <div class="row">
   <div class="span4 colums">
     <%= label("variant", "gene_model") %>
@@ -24,7 +24,7 @@
 <div class="row">
   <div class="span4 colums">
     <%= label("variant", "gene_component", "Gene Component") %>
-    <%= select("variant", "gene_component", @genome.summaries.select{|s| s.category == "gene_component"}.map(&:item).uniq, {
+    <%= select("variant", "gene_component", ["intergenic", "intron", "CDS", "5-UTR", "3-UTR", "splice_site"], {
   :include_blank => true, :selected => params[:variant].present? ? params[:variant][:gene_component] : nil}) %>
   </div>
   <div class="span4 colums">
@@ -51,7 +51,8 @@
     <th>Chromosome</th>
     <th>Symbol</th>
     <th>Transcript ID</th>
-    <th class="number">Variants Count</th>
+    <th class="number">Case Genomes</th>
+    <th class="number">Control Genomes</th>
   </tr>
   <% if @transcripts.present? %>
     <% @transcripts.each do |t| %>
@@ -60,6 +61,7 @@
     <td><%= t[0].gene_symbol %></td>
     <td><%= t[0].transcript_ID %></td>
     <td class="number"><%= t[1] %></td>
+    <td class="number"><%= t[2] %></td>
   </tr>
     <% end %>
   <% end %>

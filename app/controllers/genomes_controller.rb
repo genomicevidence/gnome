@@ -7,21 +7,32 @@ class GenomesController < ApplicationController
     params[:variant]["gene_model"] ||= "r"
     params[:variant]["ancestry"] ||= "european"
     params[:variant]["allele_frequency"] ||= "n"
+    params[:variant]["impact"] ||= "nonsynonymous"
 
     if params[:variant].present?
-      @transcripts = @genome.variants.select("chromosome, gene_symbol").page(params[:page])
+      @variants = @genome.variants #.page(params[:page])
+      #@variants = @genome.variants.select("var_ID, chromosome, gene_symbol").page(params[:page])
 
       params[:variant].each do |key, value|
         if value.present?
-          if key != 'ancestry' and key != 'allele_frequency'
-            @transcripts = @transcripts.where(key.to_sym => value)
+          if key != 'ancestry' and key != 'allele_frequency' and key != 'impact'
+            @variants = @variants.where(key.to_sym => value)
           elsif key == 'allele_frequency'
             col = key + "_" + params[:variant][:ancestry]
-            @transcripts = @transcripts.where(col.to_sym => value)
+            @variants = @variants.where(col.to_sym => value)
+          elsif key == 'impact'
+            if value == "nonsynonymous"
+              @variants = @variants.where("impact != 'synonymous'")
+            elsif value == "synonymous"
+              @variants = @variants.where(:impact => 'synonymous')
+            elsif value == "any"
+              @variants = @variants.where("impact != ''", )
+            end
           end
         end
       end
-      @transcripts = @transcripts.group(:chromosome, :gene_symbol, :transcript_ID ).order("count_var_id desc, chromosome, gene_symbol").count(:var_ID)
+      var_by_transcript = @variants.group_by(&:transcript_ID)
+      @transcripts = var_by_transcript.keys.map {|t| [var_by_transcript[t].first, var_by_transcript[t].map(&:var_ID).uniq.size]}.sort {|x, y| y[1] <=> x[1]}
     end
   end
 end

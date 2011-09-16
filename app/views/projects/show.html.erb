@@ -1,5 +1,7 @@
 <h1><%= @project.title %> (<%= @project.scenario.titleize %>)</h1>
 
+<%= link_to "Genes", genes_project_path(@project), :class => "btn" %>
+
 <h2>Datasets</h2>
 
 <div class="row">
