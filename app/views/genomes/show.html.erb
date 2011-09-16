@@ -25,14 +25,20 @@
   <div class="span5 colums">
     <h2>Filters</h2>
     <div class="form-stacked actions">
-      <%= form_tag(@genome, :method => :get) do %>
+      <%= form_tag(@genome, :method => :get, :id => "variant_filter") do %>
 
       <p><%= label("variant", "gene_model") %>
-      <%= select("variant", "gene_model", @genome.summaries.select{|s| s.category == "gene_component"}.map(&:subcategory).uniq, {
-    :include_blank => true, :selected => params[:variant].present? ? params[:variant][:gene_model] : nil }) %></p>
+      <%= select("variant", "gene_model", [["RefSeq", "r"], ["CCDS", "c"], ["Ensembl", "e"], ["UCSC known gene", "u"]], {
+    :selected => params[:variant].present? ? params[:variant][:gene_model] : "refGene" }) %></p>
+
+      <p><%= label("variant", "ancestry") %>
+        <%= select("variant", "ancestry", [["European", "european"], ["Asian", "asian"], ["African", "african"]], { :selected => (params[:variant].present? and params[:variant][:ancestry].present?) ? params[:variant][:ancestry] : "European" })%></p>
+
+      <p><%= label("variant", "allele_frequency", "Allele Frequency")%>
+      <%= select("variant", "allele_frequency", [["novel", "n"], ["rare (< 1%)", "r"], ["less common (< 5%)", "l"], ["common (>= 5%)", "c"]], { :selected => (params[:variant].present? and params[:variant][:allele_frequency].present?) ? params[:variant][:allele_frequency] : "n" })%></p>
     
       <p><%= label("variant", "impact") %>
-      <%= select("variant", "impact", @genome.summaries.select{|s| s.category == "impact"}.map(&:item).uniq, {
+      <%= select("variant", "impact", @genome.summaries.select{|s| s.category == "impact"}.map(&:item).uniq.sort, {
     :include_blank => true, :selected => params[:variant].present? ? params[:variant][:impact] : nil }) %></p>
 
       <p><%= label("variant", "gene_component", "Gene Component") %>
@@ -42,28 +48,15 @@
       <h3>In-silico Predictions</h3>
       <p><%= label("variant", "PPH2_pred", "PPH2") %>
       <%= select("variant", "PPH2_pred", ["deleterious", "neutral"], {
-    :include_blank => true, :selected => params[:variant].present? ?params[:variant][:PPH2_pred] : nil }) %></p>
+    :include_blank => true, :selected => params[:variant].present? ? params[:variant][:PPH2_pred] : nil }) %></p>
 
       <p><%= label("variant", "SIFT_pred", "SIFT") %>
       <%= select("variant", "SIFT_pred", ["deleterious", "neutral"], {
-    :include_blank => true, :selected => params[:variant].present? ?params[:variant][:SIFT_pred] : nil }) %></p>
+    :include_blank => true, :selected => params[:variant].present? ? params[:variant][:SIFT_pred] : nil }) %></p>
 
       <p><%= label("variant", "Condel_pred", "Condel") %>
       <%= select("variant", "Condel_pred", ["deleterious", "neutral"], {
-    :include_blank => true, :selected => params[:variant].present? ?params[:variant][:Condel_pred] : nil }) %></p>
-
-      <h3>Allele Frequencies</h3>
-
-      <p><%= label("variant", "AF_dbSNP132_EUR", "Europian")%>
-        <%= select("variant", "AF_dbSNP132_EUR", [["novel", -1], ["rare (< 1%)", 0.01], ["less common (< 5%)", 0.05], ["common", 1]], { :include_blank => true })%></p>
-
-        <p><%= label("variant", "AF_1000G_EUR", "Asian")%>
-          <%= select("variant", "AF_1000G_EUR", [["novel", -1], ["rare (< 1%)", 0.01], ["less common (< 5%)", 0.05], ["common", 1]], { :include_blank => true })%></p>
-
-          <p><%= label("variant", "AF_200E_EUR", "African")%>
-            <%= select("variant", "AF_200E_EUR", [["novel", -1], ["rare (< 1%)", 0.01], ["less common (< 5%)", 0.05], ["common", 1]], { :include_blank => true })%></p>
-
-      <p><%= submit_tag "Filter", :class => "btn primary large" %></p>
+    :include_blank => true, :selected => params[:variant].present? ? params[:variant][:Condel_pred] : nil }) %></p>
       <% end %>
     </div>
   </div>

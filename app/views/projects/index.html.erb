@@ -1,9 +1,24 @@
 <h1>My Projects</h1>
 
-<ol>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Scenario</th>
+    <th class="number">Case Genomes</th>
+    <th class="number">Control Genomes</th>
+    <th>Created</th>
+    <th>Updated</th>
+  </tr>
 <% @projects.each do |project| %>
-  <li><%= link_to project.title, project %> (<%= project.scenario %>)</li>
+  <tr>
+    <td><%= link_to project.title, project %></td>
+    <td><%= project.scenario %></td>
+    <td class="number"><%= project.datasets.where(:category => "case").first.genomes_count %></td>
+    <td class="number"><%= project.datasets.where(:category => "control").first.genomes_count %></td>
+    <td><%= time_ago_in_words(project.created_at) %></td>
+    <td><%= time_ago_in_words(project.updated_at) %></td>
+  </tr>
 <% end %>
-</ol>
+</table>
 
 <%= link_to 'New Project', new_project_path, :class => "btn primary" %>
