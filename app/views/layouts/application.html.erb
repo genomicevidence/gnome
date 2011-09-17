@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>gNome: Whole Genome Sequencing Analysis Pipeline</title>
+  <title>gNOME: Whole Genome Sequencing Analysis Pipeline</title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -11,7 +11,7 @@
   <div class="topbar">
     <div class="topbar-inner">
       <div class="container">
-        <h3><%= link_to "gNome", root_path %></h3>
+        <h3><%= link_to "gNOME", root_path %></h3>
         <ul class="nav">
           <li class="<%= controller.controller_name == "pages" and controller.action_name == "home" ? "active" : "" %>"><%= link_to "Home", root_path %></li>
           <li class="dropdown <%= controller.controller_name == "projects" ? "active" : "" %>">
