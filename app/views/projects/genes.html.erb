@@ -1,4 +1,10 @@
-<h1><%= link_to @project.title, @project %> Genes</h1>
+<ul class="breadcrumb">
+  <li><%= link_to "My Projects", projects_path %> <span class="divider">/</span></li>
+  <li><%= link_to @project.title, @project %> <span class="divider">/</span></li>
+  <li class="active">Genes</li>
+</ul>
+
+<h1>Genes in <%= @project.title %></h1>
 
 <%= form_tag(genes_project_path(@project), :method => :get, :id => "variant_filter") do %>
 <div class="row">
@@ -45,7 +51,7 @@
 </div>
 <% end %>
 
-<h2><%= pluralize(@transcripts.size, "Gene")%></h2>
+<h2><%= pluralize(number_with_delimiter(@transcripts.size), "Gene")%></h2>
 <table class="zebra-striped">
   <tr>
     <th>Chromosome</th>

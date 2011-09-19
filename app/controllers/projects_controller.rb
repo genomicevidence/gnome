@@ -111,6 +111,7 @@ class ProjectsController < ApplicationController
       end
     end
     var_by_transcript = @variants.group_by(&:transcript_ID)
-    @transcripts = var_by_transcript.keys.map {|t| [var_by_transcript[t].first, var_by_transcript[t].select {|t| t.dataset_id == case_dataset_id}.map(&:genome_id).uniq.size, var_by_transcript[t].select {|t| t.dataset_id == control_dataset_id}.map(&:genome_id).uniq.size]}
+    @transcripts = var_by_transcript.keys.map {|t| [var_by_transcript[t].first, var_by_transcript[t].select {|x| x.dataset_id == case_dataset_id}.map(&:genome_id).uniq.size, var_by_transcript[t].select {|x| x.dataset_id == control_dataset_id}.map(&:genome_id).uniq.size]}.sort_by {|x| [x[1] - x[2], x[1]]}.reverse
+    #@transcripts = var_by_transcript.keys.map {|t| [var_by_transcript[t].first, var_by_transcript[t].select {|t| t.dataset_id == case_dataset_id}.map(&:genome_id).uniq.size, var_by_transcript[t].select {|t| t.dataset_id == control_dataset_id}.map(&:genome_id).uniq.size]}.sort {|x, y| (y[1] - y[2]) <=> (x[1] - x[2]) || y[1] <=> x[1]}
   end
 end

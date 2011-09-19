@@ -1,6 +1,13 @@
+<ul class="breadcrumb">
+  <li><%= link_to "My Projects", projects_path %> <span class="divider">/</span></li>
+  <li class="active"><%= @project.title %></li>
+</ul>
+
 <h1><%= @project.title %> (<%= @project.scenario.titleize %>)</h1>
 
 <%= link_to "Genes", genes_project_path(@project), :class => "btn" %>
+<%= link_to "Diseases", @project, :class => "btn disabled" %>
+<%= link_to "Pathways", @project, :class => "btn disabled" %>
 
 <h2>Datasets</h2>
 
