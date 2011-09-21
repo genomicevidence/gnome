@@ -7,48 +7,7 @@
 <h1>Genes in <%= @project.title %></h1>
 
 <%= form_tag(genes_project_path(@project), :method => :get, :id => "variant_filter") do %>
-<div class="row">
-  <div class="span4 colums">
-    <%= label("variant", "gene_model") %>
-    <%= select("variant", "gene_model", [["RefSeq", "r"], ["CCDS", "c"], ["Ensembl", "e"], ["UCSC known gene", "u"]], {
-  :selected => params[:variant].present? ? params[:variant][:gene_model] : "refGene" }) %>
-  </div>
-  <div class="span4 colums">
-    <%= label("variant", "ancestry") %>
-      <%= select("variant", "ancestry", [["European", "european"], ["Asian", "asian"], ["African", "african"]], { :selected => (params[:variant].present? and params[:variant][:ancestry].present?) ? params[:variant][:ancestry] : "European" })%>
-  </div>
-  <div class="span4 colums">
-    <%= label("variant", "allele_frequency", "Allele Frequency")%>
-    <%= select("variant", "allele_frequency", [["novel", "n"], ["rare (< 1%)", "r"], ["less common (< 5%)", "l"], ["common (>= 5%)", "c"]], { :selected => (params[:variant].present? and params[:variant][:allele_frequency].present?) ? params[:variant][:allele_frequency] : "n" })%>
-  </div>
-  <div class="span4 colums">
-    <%= label("variant", "impact") %>
-    <%= select("variant", "impact", ["nonsynonymous", "synonymous", "any"], { :selected => (params[:variant].present? and params[:variant][:impact].present?) ? params[:variant][:impact] : "nonsynonymous" }) %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="span4 colums">
-    <%= label("variant", "gene_component", "Gene Component") %>
-    <%= select("variant", "gene_component", ["intergenic", "intron", "CDS", "5-UTR", "3-UTR", "splice_site"], {
-  :include_blank => true, :selected => params[:variant].present? ? params[:variant][:gene_component] : nil}) %>
-  </div>
-  <div class="span4 colums">
-    <%= label("variant", "PPH2_pred", "PPH2 Prediction") %>
-    <%= select("variant", "PPH2_pred", ["deleterious", "neutral"], {
-  :include_blank => true, :selected => params[:variant].present? ? params[:variant][:PPH2_pred] : nil }) %>
-  </div>
-  <div class="span4 colums">
-    <%= label("variant", "SIFT_pred", "SIFT Prediction") %>
-    <%= select("variant", "SIFT_pred", ["deleterious", "neutral"], {
-  :include_blank => true, :selected => params[:variant].present? ? params[:variant][:SIFT_pred] : nil }) %>
-  </div>
-  <div class="span4 colums">
-    <%= label("variant", "Condel_pred", "Condel Prediction") %>
-    <%= select("variant", "Condel_pred", ["deleterious", "neutral"], {
-  :include_blank => true, :selected => params[:variant].present? ? params[:variant][:Condel_pred] : nil }) %>
-  </div>
-</div>
+<%= render :partial => "shared/filters" %>
 <% end %>
 
 <h2><%= pluralize(number_with_delimiter(@transcripts.size), "Gene")%></h2>
@@ -65,7 +24,7 @@
   <tr>
     <td><%= t[0].chromosome %></td>
     <td><%= t[0].gene_symbol %></td>
-    <td><%= t[0].transcript_ID %></td>
+    <td><%= t[0].transcript_id %></td>
     <td class="number"><%= t[1] %></td>
     <td class="number"><%= t[2] %></td>
   </tr>

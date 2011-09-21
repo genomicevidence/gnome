@@ -33,16 +33,16 @@ class GenomesController < ApplicationController
             @variants = @variants.where(col.to_sym => value)
           elsif key == 'impact'
             if value == "nonsynonymous"
-              @variants = @variants.where("impact != 'synonymous'")
+              @variants = @variants.where("impact > 1")
             elsif value == "synonymous"
-              @variants = @variants.where(:impact => 'synonymous')
+              @variants = @variants.where(:impact => 1)
             elsif value == "any"
-              @variants = @variants.where("impact != ''", )
+              @variants = @variants.where("impact > 0", )
             end
           end
         end
       end
-      var_by_transcript = @variants.group_by(&:transcript_ID)
+      var_by_transcript = @variants.group_by(&:transcript_id)
       @transcripts = var_by_transcript.keys.map {|t| [var_by_transcript[t].first, var_by_transcript[t].map(&:var_ID).uniq.size]}.sort {|x, y| y[1] <=> x[1]}
       
     end
