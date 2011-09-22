@@ -109,8 +109,8 @@ ActiveRecord::Schema.define(:version => 20110914180116) do
     t.integer "var_begin"
     t.integer "var_end"
     t.string  "var_strand",                   :limit => 1
-    t.string  "variation_type",               :limit => 3
-    t.integer "variation_call_score",         :limit => 2
+    t.string  "variant_type",                 :limit => 3
+    t.integer "variant_call_score",           :limit => 2
     t.integer "var_ID"
     t.string  "reference_seq",                :limit => 192
     t.string  "variant_seq",                  :limit => 169
