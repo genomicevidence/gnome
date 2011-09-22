@@ -22,7 +22,7 @@
         <th>Ancestry</th>
         <th class="number">Variants Count</th>
       </tr>
-      <% dataset.genomes.each do |genome| %>
+      <% dataset.genomes.order(:variants_count).each do |genome| %>
       <tr>
         <td class="long_file_name"><%= link_to(genome.file_name, genome) %></td>
         <td><%= genome.genome_build %></td>
