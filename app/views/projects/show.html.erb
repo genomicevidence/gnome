@@ -52,14 +52,14 @@
     <% if subcategories.size > 1 %>
       <ul class="tabs" data-tabs="tabs">
         <% subcategories.keys.each do |subcategory| %>
-        <li class="<%= subcategory == subcategories.keys.first ? "active" : "" %>"><%= link_to(subcategory, "##{dataset.category}-#{category}-#{subcategory}") %></li>
+        <li class="<%= subcategory == subcategories.keys.first ? "active" : "" %>"><%= link_to(subcategory, "##{dataset.category}-#{category}-#{subcategory.parameterize}") %></li>
         <% end %>
       </ul>
       <% end %>
       
       <div class="tab-content">
         <% subcategories.keys.each do |subcategory| %>
-        <div class="<%= subcategory == subcategories.keys.first ? "active" : "" %>" id="<%= "#{dataset.category}-#{category}-#{subcategory}" %>">
+        <div class="<%= subcategory == subcategories.keys.first ? "active" : "" %>" id="<%= "#{dataset.category}-#{category}-#{subcategory.parameterize}" %>">
           <table class="zebra-striped">
             <tr>
               <th></th>
