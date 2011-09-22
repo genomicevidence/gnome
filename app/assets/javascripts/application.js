@@ -17,4 +17,5 @@ $(document).ready(function(){
     var $li = $(this).parent("li").toggleClass('open');
     return false;
   });
+  $('.tabs').tabs()
 });

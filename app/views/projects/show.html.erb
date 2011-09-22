@@ -5,9 +5,12 @@
 
 <h1><%= @project.title %> (<%= @project.scenario.titleize %>)</h1>
 
-<%= link_to "Genes", genes_project_path(@project), :class => "btn" %>
-<%= link_to "Diseases", @project, :class => "btn disabled" %>
-<%= link_to "Pathways", @project, :class => "btn disabled" %>
+<ul class="pills">
+  <li class="active"><%= link_to("Summary", project_path(@project)) %></li>
+  <li><%= link_to "Genes", genes_project_path(@project) %></li>
+  <li><%= link_to "Pathways" %></li>
+  <li><%= link_to "Diseases" %></li>
+</ul>
 
 <h2>Datasets</h2>
 
@@ -44,32 +47,44 @@
     
     <% summaries = dataset.summaries.group_by(&:category) %>
     <% summaries.keys.each do |category| %>
-      <% subcategories = summaries[category].group_by(&:subcategory) %>
-      <% subcategories.keys.each do |subcategory| %>
-    <h4><%= category.titleize %> <small><%= subcategory %></small></h4>
-    <table class="zebra-striped">
-      <tr>
-        <th></th>
-        <th class="number">Minimum</th>
-        <th class="number">Average</th>
-        <th class="number">Maximum</th>
-        <th class="number">Proportion (%)</th>
-      </tr>
-      <% items = subcategories[subcategory].group_by(&:item) %>
-      <% items.keys.each do |key| %>
-        <% counts = items[key].map(&:variants_count) %>
-        <% sum = counts.inject(0){|acc, i| acc + i} %>
-        <% total_counts = dataset.genomes.map(&:variants_count).inject(0){|acc, i| acc + i}%>
-      <tr>
-        <td><%= key %></td>
-        <td class="number"><%= number_with_delimiter(counts.sort.first) %></td>
-        <td class="number"><%= number_with_delimiter((sum / counts.length.to_f).round) %></td>
-        <td class="number"><%= number_with_delimiter(counts.sort.reverse.first) %></td>
-        <td class="number"><%= number_with_delimiter(number_with_precision(sum / total_counts.to_f * 100, :precision => 2)) %></td>
-      </tr>
+    <h4><%= category.titleize %></h4>
+    <% subcategories = summaries[category].group_by(&:subcategory) %>
+    <% if subcategories.size > 1 %>
+      <ul class="tabs" data-tabs="tabs">
+        <% subcategories.keys.each do |subcategory| %>
+        <li class="<%= subcategory == subcategories.keys.first ? "active" : "" %>"><%= link_to(subcategory, "##{dataset.category}-#{category}-#{subcategory}") %></li>
+        <% end %>
+      </ul>
       <% end %>
-    </table>
-      <% end %>
+      
+      <div class="tab-content">
+        <% subcategories.keys.each do |subcategory| %>
+        <div class="<%= subcategory == subcategories.keys.first ? "active" : "" %>" id="<%= "#{dataset.category}-#{category}-#{subcategory}" %>">
+          <table class="zebra-striped">
+            <tr>
+              <th></th>
+              <th class="number">Minimum</th>
+              <th class="number">Average</th>
+              <th class="number">Maximum</th>
+              <th class="number">Proportion (%)</th>
+            </tr>
+            <% items = subcategories[subcategory].group_by(&:item) %>
+            <% items.keys.each do |key| %>
+              <% counts = items[key].map(&:variants_count) %>
+              <% sum = counts.inject(0){|acc, i| acc + i} %>
+              <% total_counts = dataset.genomes.map(&:variants_count).inject(0){|acc, i| acc + i}%>
+            <tr>
+              <td><%= key %></td>
+              <td class="number"><%= number_with_delimiter(counts.sort.first) %></td>
+              <td class="number"><%= number_with_delimiter((sum / counts.length.to_f).round) %></td>
+              <td class="number"><%= number_with_delimiter(counts.sort.reverse.first) %></td>
+              <td class="number"><%= number_with_delimiter(number_with_precision(sum / total_counts.to_f * 100, :precision => 2)) %></td>
+            </tr>
+            <% end %>
+          </table>
+        </div>
+        <% end %>
+      </div>
     <% end %>
   </div>
 <% end %>

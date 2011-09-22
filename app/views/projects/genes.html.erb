@@ -4,7 +4,14 @@
   <li class="active">Genes</li>
 </ul>
 
-<h1>Genes in <%= @project.title %></h1>
+<h1><%= @project.title %> (<%= @project.scenario.titleize %>)</h1>
+
+<ul class="pills">
+  <li><%= link_to("Summary", project_path(@project)) %></li>
+  <li class="active"><%= link_to "Genes", genes_project_path(@project) %></li>
+  <li><%= link_to "Pathways" %></li>
+  <li><%= link_to "Diseases" %></li>
+</ul>
 
 <%= form_tag(genes_project_path(@project), :method => :get, :id => "variant_filter") do %>
 <%= render :partial => "shared/filters" %>
