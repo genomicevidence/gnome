@@ -14,14 +14,14 @@
   </div>
   <div class="span4 colums">
     <%= label("variant", "impact") %>
-    <%= select("variant", "impact", ["nonsynonymous", "synonymous", "any"], { :selected => (params[:variant].present? and params[:variant][:impact].present?) ? params[:variant][:impact] : "nonsynonymous" }) %>
+    <%= select("variant", "impact", ["nonsynonymous", ["- missense", 2], ["- disrupt", 3], ["- frameshift", 4], ["- nonsense", 5], ["- in-frame-deletion", 6], ["- in-frame-insertion", 7], ["- nonstop", 8], ["- misstart", 9], ["synonymous", 1], "any"], { :selected => (params[:variant].present? and params[:variant][:impact].present?) ? params[:variant][:impact] : "nonsynonymous" }) %>
   </div>
 </div>
 
 <div class="row">
   <div class="span4 colums">
     <%= label("variant", "gene_component", "Gene Component") %>
-    <%= select("variant", "gene_component", [["intron", 1], ["3-UTR", 2], ["CDS", 3], ["5-UTR", 4], ["splice_site", 5]], { :include_blank => true, :selected => (params[:variant].present? and params[:variant][:gene_component].present?) ? params[:variant][:gene_component] : nil}) %>
+    <%= select("variant", "gene_component", [["intron", 1], ["3-UTR", 2], ["CDS", 3], ["5-UTR", 4], ["splice_site", 5]], { :include_blank => true, :selected => (params[:variant].present? and params[:variant][:gene_component].present?) ? params[:variant][:gene_component] : nil, :disabled => [1, 2, 4]}) %>
   </div>
   <div class="span4 colums">
     <%= label("variant", "PPH2_prediction", "PPH2 Prediction") %>
@@ -40,22 +40,21 @@
   </div>
 </div>
 
-<!--div class="row">
+<div class="row">
   <div class="span4 colums">
-    <%= label("variant", "Genotype", "Genotype")%>
-    <%= select("variant", "Genotype", [])%>
+    <%= label("variant", "zygosity")%>
+    <%= select("variant", "zygosity", [["homozygous", 1], ["heterozygous", 2]], {:include_blank => true, :selected => (params[:variant].present? and params[:variant][:zygosity].present?) ? params[:variant][:zygosity] : nil})%>
   </div>
   <div class="span4 colums">
-    <%= label("variant", "score", "Variant Call Score")%>
-    <%= select("variant", "score", [["> 20", 20], ["> 40", 40], ["> 60", 60], ["> 80", 80], ["> 100", 100]], {
-  :include_blank => true, :selected => params[:variant].present? ? params[:variant][:SIFT_pred] : nil })%>
+    <%= label("variant", "variant_call_score", "Variant Call Score")%>
+    <%= select("variant", "variant_call_score", [["> 20", 20], ["> 40", 40], ["> 60", 60], ["> 80", 80], ["> 100", 100]], { :include_blank => true, :selected => (params[:variant].present? and params[:variant][:variant_call_score].present?) ? params[:variant][:variant_call_score] : nil })%>
   </div>
   <div class="span4 colums">
-    <%= label("variant", "Average_conservation_score", "GERP")%>
-    <%= select("variant", "Average_conservation_score", [["> 2", 2], ["> 3", 3], ["> 4", 4], ["> 5", 5]])%>
+    <%= label("variant", "average_conservation_score", "GERP Score")%>
+    <%= select("variant", "average_conservation_score", [["> 2", 2], ["> 3", 3], ["> 4", 4], ["> 5", 5]], { :include_blank => true, :selected => (params[:variant].present? and params[:variant][:average_conservation_score].present?) ? params[:variant][:average_conservation_score] : nil })%>
   </div>
   <div class="span4 colums">
-    <%= label("variant", "Portion_with_sequence_repeat", "RMSK")%>
-    <%= select("variant", "Portion_with_sequence_repeat", [])%>
+    <%= label("variant", "portion_with_sequence_repeat", "RMSK")%>
+    <%= select("variant", "portion_with_sequence_repeat", [["> 20%", 0.2], ["> 40%", 0.4], ["> 60%", 0.6], ["> 80%", 0.8]], { :include_blank => true, :selected => (params[:variant].present? and params[:variant][:portion_with_sequence_repeat].present?) ? params[:variant][:portion_with_sequence_repeat] : nil })%>
   </div>
-</div-->
+</div>

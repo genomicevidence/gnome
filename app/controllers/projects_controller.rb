@@ -94,7 +94,7 @@ class ProjectsController < ApplicationController
 
     params[:variant].each do |key, value|
       if value.present?
-        if key != 'ancestry' and key != 'allele_frequency' and key != 'impact'
+        if ["gene_model", "gene_component", "PPH2_prediction", "SIFT_prediction", "Condel_prediction", "zygosity"].include?(key)
           @variants = @variants.where(key.to_sym => value)
         elsif key == 'allele_frequency'
           col = key + "_" + params[:variant][:ancestry]
@@ -102,11 +102,13 @@ class ProjectsController < ApplicationController
         elsif key == 'impact'
           if value == "nonsynonymous"
             @variants = @variants.where("impact > 1")
-          elsif value == "synonymous"
-            @variants = @variants.where(:impact => 1)
           elsif value == "any"
-            @variants = @variants.where("impact > 0", )
+            @variants = @variants.where("impact > 0")
+          else
+            @variants = @variants.where(:impact => value)
           end
+        elsif ["variant_call_score", "average_conservation_score", "portion_with_sequence_repeat"].include?(key)
+          @variants = @variants.where("#{key} > ?", value)
         end
       end
     end
