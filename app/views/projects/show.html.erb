@@ -46,20 +46,20 @@
     <h3><%= pluralize(dataset.genomes.count, dataset.category.titleize) %></h3>
     
     <% summaries = dataset.summaries.group_by(&:category) %>
-    <% summaries.keys.each do |category| %>
+    <% summaries.keys.sort.each do |category| %>
     <h4><%= category.titleize %></h4>
     <% subcategories = summaries[category].group_by(&:subcategory) %>
     <% if subcategories.size > 1 %>
       <ul class="tabs" data-tabs="tabs">
         <% subcategories.keys.each do |subcategory| %>
-        <li class="<%= subcategory == subcategories.keys.first ? "active" : "" %>"><%= link_to(subcategory, "##{dataset.category}-#{category}-#{subcategory.parameterize}") %></li>
+        <li class="<%= subcategory == subcategories.keys.first ? "active" : "" %>"><%= link_to(subcategory, "##{dataset.category}-#{category.parameterize}-#{subcategory.parameterize}") %></li>
         <% end %>
       </ul>
       <% end %>
       
       <div class="tab-content">
         <% subcategories.keys.each do |subcategory| %>
-        <div class="<%= subcategory == subcategories.keys.first ? "active" : "" %>" id="<%= "#{dataset.category}-#{category}-#{subcategory.parameterize}" %>">
+        <div class="<%= subcategory == subcategories.keys.first ? "active" : "" %>" id="<%= "#{dataset.category}-#{category.parameterize}-#{subcategory.parameterize}" %>">
           <table class="zebra-striped">
             <tr>
               <th></th>
