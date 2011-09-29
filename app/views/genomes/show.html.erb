@@ -22,21 +22,25 @@
 <% end %>
 
 <h2><%= pluralize(@transcripts.size, "Gene")%></h2>
-<table class="zebra-striped">
-  <tr>
-    <th>Chromosome</th>
-    <th>Symbol</th>
-    <th>Transcript ID</th>
-    <th class="number">Variants Count</th>
-  </tr>
+<table id="transcripts" class="zebra-striped">
+  <thead>
+    <tr>
+      <th>Chromosome</th>
+      <th>Symbol</th>
+      <th>Transcript ID</th>
+      <th class="number">Variants Count</th>
+    </tr>
+  </thead>
   <% if @transcripts.present? %>
+  <tbody>
     <% @transcripts.each do |t| %>
-  <tr>
-    <td><%= t[0].chromosome %></td>
-    <td><%= t[0].gene_symbol %></td>
-    <td><%= t[0].transcript_id %></td>
-    <td class="number"><%= t[1] %></td>
-  </tr>
+    <tr>
+      <td><%= t[0].chromosome %></td>
+      <td><%= t[0].gene_symbol %></td>
+      <td><%= t[0].transcript_id %></td>
+      <td class="number"><%= t[1] %></td>
+    </tr>
     <% end %>
+  </tbody>
   <% end %>
 </table>

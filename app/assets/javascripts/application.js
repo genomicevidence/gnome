@@ -18,4 +18,5 @@ $(document).ready(function(){
     return false;
   });
   $('.tabs').tabs()
+  $("table#transcripts").tablesorter({ sortList: [[3,1]] });
 });
