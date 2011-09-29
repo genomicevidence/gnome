@@ -19,6 +19,7 @@ class CreateVariants < ActiveRecord::Migration
       t.string :reference_seq, :limit => 192
       t.string :variant_seq, :limit => 169
       t.integer :zygosity, :limit => 1
+      t.integer :gene_id
       t.string :transcript_id, :limit => 12
       t.string :gene_symbol, :limit => 15
       t.float :average_conservation_score
