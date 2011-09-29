@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110914180116) do
+ActiveRecord::Schema.define(:version => 20110929015711) do
+
+  create_table "collections", :force => true do |t|
+    t.string  "name"
+    t.string  "description"
+    t.string  "url"
+    t.integer "gene_sets_count", :default => 0
+  end
 
   create_table "datasets", :force => true do |t|
     t.integer  "project_id"
@@ -38,6 +45,16 @@ ActiveRecord::Schema.define(:version => 20110914180116) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "gene_sets", :force => true do |t|
+    t.integer "collection_id"
+    t.string  "name"
+    t.integer "genes_count",   :default => 0
+    t.string  "url"
+    t.text    "gene_ids"
+  end
+
+  add_index "gene_sets", ["collection_id"], :name => "index_gene_sets_on_collection_id"
 
   create_table "genomes", :force => true do |t|
     t.integer  "dataset_id"
