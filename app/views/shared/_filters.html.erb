@@ -58,3 +58,19 @@
     <%= select("variant", "portion_with_sequence_repeat", [["> 20%", 0.2], ["> 40%", 0.4], ["> 60%", 0.6], ["> 80%", 0.8]], { :include_blank => true, :selected => (params[:variant].present? and params[:variant][:portion_with_sequence_repeat].present?) ? params[:variant][:portion_with_sequence_repeat] : nil })%>
   </div>
 </div>
+
+<div class="row">
+  <div class="span4 colums">
+    
+  </div>
+  <div class="span4 colums">
+    
+  </div>
+  <div class="span4 colums">
+    <%= label("variant", "enrichment_analysis", "Enrichment Analysis")%>
+    <%= select("variant", "enrichment_analysis", options_from_collection_for_select(Collection.all, 'id', 'name', (params[:variant].present? and params[:variant][:enrichment_analysis].present?) ? params[:variant][:enrichment_analysis] : nil), { :include_blank => true })%>
+  </div>
+  <div class="span4 colums">
+
+  </div>
+</div>
