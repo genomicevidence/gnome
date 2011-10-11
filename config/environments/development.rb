@@ -25,6 +25,9 @@ Gnome::Application.configure do
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
+  # Expands the lines which load the assets
+  config.assets.debug = true
+
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
