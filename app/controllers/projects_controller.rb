@@ -116,5 +116,10 @@ class ProjectsController < ApplicationController
     var_by_transcript = @variants.group_by(&:transcript_id)
     @transcripts = var_by_transcript.keys.map {|t| [var_by_transcript[t].first, var_by_transcript[t].select {|x| x.dataset_id == @case_dataset.id}.map(&:genome_id).uniq.size, var_by_transcript[t].select {|x| x.dataset_id == @control_dataset.id}.map(&:genome_id).uniq.size]}.select{|x| case_genomes_range.include?(x[1]) and control_genomes_range.include?(x[2])}.sort_by {|x| [x[1] - x[2], x[1]]}.reverse
     @transcripts_size = @transcripts.size
+    @gene_ids = @transcripts.map {|x| x[0].gene_id}.uniq
+    @genes_count = @gene_ids.size
+    
+    if params[:variant][:enrichment_analysis].present? and @genes_count > 0
+    end
   end
 end
