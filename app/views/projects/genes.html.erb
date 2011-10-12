@@ -8,33 +8,37 @@
 
 <ul class="pills">
   <li><%= link_to("Summary", project_path(@project)) %></li>
-  <li class="active"><%= link_to "Genes", genes_project_path(@project) %></li>
-  <li><%= link_to "Pathways" %></li>
-  <li><%= link_to "Diseases" %></li>
+  <li class="active"><%= link_to "Variant Filter", genes_project_path(@project) %></li>
 </ul>
 
 <%= form_tag(genes_project_path(@project), :method => :get, :id => "variant_filter") do %>
 <%= render :partial => "shared/filters" %>
-<% end %>
 
-<h2><%= pluralize(number_with_delimiter(@transcripts.size), "Gene")%></h2>
+<br />
+
+<h2><%= pluralize(number_with_delimiter(@transcripts_size), "Gene")%></h2>
 <table class="zebra-striped">
-  <tr>
-    <th>Chromosome</th>
-    <th>Symbol</th>
-    <th>Transcript ID</th>
-    <th class="number">Case Genomes</th>
-    <th class="number">Control Genomes</th>
-  </tr>
+  <thead>
+    <tr>
+      <th>Chromosome</th>
+      <th>Symbol</th>
+      <th>Transcript ID</th>
+      <th><%= select("genes", "case_genomes", [["All (#{@case_dataset.genomes_count})", "all"], ["Some (1-#{@case_dataset.genomes_count - 1})", "some"], ["No (0)", "no"]], { :selected => (params[:genes].present? and params[:genes][:case_genomes].present?) ? params[:genes][:case_genomes] : "all"}, :class => "span2")%> Case Genomes</th>
+      <th class="number"><%= select("genes", "control_genomes", [["All (#{@control_dataset.genomes_count})", "all"], ["Some (1-#{@control_dataset.genomes_count - 1})", "some"], ["No (0)", "no"]], { :selected => (params[:genes].present? and params[:genes][:control_genomes].present?) ? params[:genes][:control_genomes] : "no" }, :class => "span2")%> Control Genomes</th>
+    </tr>
+  </thead>
   <% if @transcripts.present? %>
-    <% @transcripts.each do |t| %>
-  <tr>
-    <td><%= t[0].chromosome %></td>
-    <td><%= t[0].gene_symbol %></td>
-    <td><%= t[0].transcript_id %></td>
-    <td class="number"><%= t[1] %></td>
-    <td class="number"><%= t[2] %></td>
-  </tr>
+  <tbody>
+    <% @transcripts[0 .. (@transcripts_size > 100 ? 99 : @transcripts_size)].each do |t| %>
+    <tr>
+      <td><%= t[0].chromosome %></td>
+      <td><%= t[0].gene_symbol %></td>
+      <td><%= t[0].transcript_id %></td>
+      <td class="number"><%= t[1] %></td>
+      <td class="number"><%= t[2] %></td>
+    </tr>
     <% end %>
+  </tbody>
   <% end %>
 </table>
+<% end %>

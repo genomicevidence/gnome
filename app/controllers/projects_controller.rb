@@ -80,14 +80,41 @@ class ProjectsController < ApplicationController
   def genes
     @project = current_user.projects.where(:id => params[:id]).first
     
-    @datasets = @project.datasets
-    case_dataset_id = @project.datasets.where(:category => "case").first.id
-    control_dataset_id = @project.datasets.where(:category => "control").first.id
+    datasets = @project.datasets
+    @case_dataset = datasets.where(:category => "case").first
+    @control_dataset = datasets.where(:category => "control").first
 
-    @variants = Variant.where(:dataset_id => @datasets) #.page(params[:page])
+    @variants = Variant.where(:dataset_id => datasets) #.page(params[:page])
     @variants = apply_variants_filter(@variants, params)
     
+    params[:genes] ||= {}
+    params[:genes][:case_genomes] ||= "all"
+    params[:genes][:control_genomes] ||= "no"
+    
+    case_genomes_range = case params[:genes][:case_genomes]
+    when "all"
+      [@case_dataset.genomes_count]
+    when "some"
+      (1 .. (@case_dataset.genomes_count - 1)).to_a
+    when "no"
+      [0]
+    else
+      [@case_dataset.genomes_count]
+    end
+
+    control_genomes_range = case params[:genes][:control_genomes]
+    when "all"
+      [@control_dataset.genomes_count]
+    when "some"
+      (1 .. (@control_dataset.genomes_count - 1)).to_a
+    when "no"
+      [0]
+    else
+      [0]
+    end
+
     var_by_transcript = @variants.group_by(&:transcript_id)
-    @transcripts = var_by_transcript.keys.map {|t| [var_by_transcript[t].first, var_by_transcript[t].select {|x| x.dataset_id == case_dataset_id}.map(&:genome_id).uniq.size, var_by_transcript[t].select {|x| x.dataset_id == control_dataset_id}.map(&:genome_id).uniq.size]}.sort_by {|x| [x[1] - x[2], x[1]]}.reverse
+    @transcripts = var_by_transcript.keys.map {|t| [var_by_transcript[t].first, var_by_transcript[t].select {|x| x.dataset_id == @case_dataset.id}.map(&:genome_id).uniq.size, var_by_transcript[t].select {|x| x.dataset_id == @control_dataset.id}.map(&:genome_id).uniq.size]}.select{|x| case_genomes_range.include?(x[1]) and control_genomes_range.include?(x[2])}.sort_by {|x| [x[1] - x[2], x[1]]}.reverse
+    @transcripts_size = @transcripts.size
   end
 end
