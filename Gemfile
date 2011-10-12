@@ -23,6 +23,8 @@ gem 'carrierwave_backgrounder'
 gem 'therubyracer', :require => 'v8'
 gem 'loadat', '0.0.2'
 gem "letter_opener", :group => :development
+#gem 'gsl'
+gem 'distribution'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

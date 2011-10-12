@@ -15,6 +15,35 @@
 <%= render :partial => "shared/filters" %>
 
 <br />
+  <% if params[:variant][:enrichment_analysis].present? and @genes_count > 0 %>
+
+<h2><em><%= @collection.name %></em> Enrichment Analysis <small>for <%= pluralize(number_with_delimiter(@genes_count), "gene")%></small></h2>
+
+<%= hidden_field_tag("genes[case_genomes]", params[:genes][:case_genomes]) %>
+<table class="zebra-striped">
+  <thead>
+    <tr>
+      <th>Gene Set</th>
+      <th class="number">Genes Count</th>
+      <th class="number">Overlapping Genes Count</th>
+      <th class="number">p-value</th>
+    </tr>
+  </thead>
+  <% if @gene_sets.size > 0 %>
+  <tbody>
+    <% @gene_sets.each do |gene_set| %>
+    <tr>
+      <td><%= gene_set.name %></td>
+      <td class="number"><%= gene_set.genes_count %></td>
+      <td class="number"><%= gene_set.overlapping_gene_ids(@gene_ids).size %></td>
+      <td class="number"><%= gene_set.p_value %></td>
+    </tr>
+    <% end %>
+  </tbody>
+  <% end %>
+</table>
+
+  <% else %>
 
 <h2><%= pluralize(number_with_delimiter(@genes_count), "Gene")%></h2>
 <table class="zebra-striped">
@@ -41,4 +70,5 @@
   </tbody>
   <% end %>
 </table>
+  <% end %>
 <% end %>

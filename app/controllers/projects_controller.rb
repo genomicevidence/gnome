@@ -119,7 +119,20 @@ class ProjectsController < ApplicationController
     @gene_ids = @transcripts.map {|x| x[0].gene_id}.uniq
     @genes_count = @gene_ids.size
     
+    big_n = 42029 # TODO: Gene.count
+    n = @genes_count
     if params[:variant][:enrichment_analysis].present? and @genes_count > 0
+      @collection = Collection.find(params[:variant][:enrichment_analysis])
+      @gene_sets = []
+      @collection.gene_sets.each do |g|
+        k = g.overlapping_gene_ids(@gene_ids).size
+        m = g.genes_count
+        g.p_value = "#{k}:#{m}:#{n}:#{big_n}"
+        if k.nil? == false and m.nil? == false and k > 0 and m > 0
+          g.p_value = Distribution::Hypergeometric.p_value(k, m, n, big_n)
+        end
+        @gene_sets.push(g) if k > 0 and m > 0 and n > 0
+      end
     end
   end
 end
