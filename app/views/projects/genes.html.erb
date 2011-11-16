@@ -20,7 +20,7 @@
 <h2><em><%= @collection.name %></em> Enrichment Analysis <small>for <%= pluralize(number_with_delimiter(@genes_count), "gene")%></small></h2>
 
 <%= hidden_field_tag("genes[case_genomes]", params[:genes][:case_genomes]) %>
-<table class="zebra-striped">
+<table class="bordered-table zebra-striped">
   <thead>
     <tr>
       <th>Gene Set</th>
@@ -46,7 +46,7 @@
   <% else %>
 
 <h2><%= pluralize(number_with_delimiter(@genes_count), "Gene")%></h2>
-<table class="zebra-striped">
+<table class="bordered-table zebra-striped">
   <thead>
     <tr>
       <th>Chromosome</th>

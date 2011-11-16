@@ -16,7 +16,7 @@
 <% @project.datasets.each do |dataset| %>
   <div class="span8 colums">
     <h3><%= pluralize(dataset.genomes.count, dataset.category.titleize) %> <small><%= dataset.read_attribute(:file) %> (<%= number_to_human_size(dataset.file.size) %>)</small></h3>
-    <table class="zebra-striped">
+    <table class="bordered-table zebra-striped">
       <tr>
         <th>File Name</th>
         <th>Genome Build</th>
@@ -58,7 +58,7 @@
       <div class="tab-content">
         <% subcategories.keys.each do |subcategory| %>
         <div class="<%= subcategory == subcategories.keys.first ? "active" : "" %>" id="<%= "#{dataset.category}-#{category.parameterize}-#{subcategory.parameterize}" %>">
-          <table class="zebra-striped">
+          <table class="bordered-table zebra-striped">
             <tr>
               <th></th>
               <th class="number">Minimum</th>
